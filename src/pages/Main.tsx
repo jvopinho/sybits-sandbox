@@ -4,11 +4,10 @@ import { useTheme } from 'styled-components'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark as DarkHighlighterStyle, oneLight as LightHighlighterStyle } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { createCode } from "../helpers/CreateCode";
-// import { EditorSection } from "../components/Editor";
+import { EditorSection } from "../components/Editor";
 import { useFlags } from "../hooks/useFlags";
 import { Calculator } from "../components/Calculator";
 import { useState } from "react";
-import { Button } from "antd";
 
 export const Main: React.FC = () => {
   const theme = useTheme()
@@ -23,13 +22,7 @@ export const Main: React.FC = () => {
       />
       <SectionsWrapper>
         <LeftSection>
-          {/* <EditorSection /> */}
-          <Button
-            type={'primary'}
-            onClick={() => setcalculatorIsOpen(!calculatorIsOpen)}
-          >
-            Calculator
-          </Button>
+          <EditorSection handleOpenCalculator={() => setcalculatorIsOpen(!calculatorIsOpen)} />
         </LeftSection>
 
         <RightSection>

@@ -29,74 +29,25 @@ export const EditorTableWrapper = styled.div`
   height: 65%;
   max-height: 80%;
   border: ${theme('ui-10')} 2px solid;
-`
-export const EditorTable = styled.table`
-  width: 100%;
-  padding: 10px 15px;
-
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    width: 3px;
-}
-        
-  &::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px ${theme('flow-20')};
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: ${theme('ui-20')};
-    border-radius: 10px;
-  }
-
-  column-count: 3;
-  column-gap: 20px;
-
-  thead {
-    text-align: center;
-
-    tr {
-      :first-child {
-        text-align: left;
-      }
-    }
-  }
-
-  tr {
-    text-align: center;
-    td.flag-value {
-      color: ${theme('text-60')};
-      font-size: 15px;
-      text-align: center;
-      justify-content: center;
-    }
-
-    td.flag-is-default {
-      display: flex;
-      justify-content: center;
-      padding-top: 5px;
-    }
-  }
+  overflow: auto;
+  padding: 12px;
 `
 
 export const EditorAddFlagContainer = styled.div`
-  width: 95%;
-  height: 60px;
-  margin-left: auto;
-  margin-right: auto;
-  border: ${theme('ui-15')} 2px solid;
-  border-top: 0px;
-  padding: 12px 15px;
-  
-  input {
-    border: ${theme('ui-10')} 2px solid;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+
+  .ant-form-item {
+    margin-bottom: 0 !important;
   }
 
-  input:focus {
-    background-color: ${theme('ui-15')};
-  }
-
-  button {
-    height: 36px;
+  .end {
+    display: flex;
+    align-items: start;
+    gap: 8px;
   }
 `
 

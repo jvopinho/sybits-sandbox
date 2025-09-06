@@ -21,14 +21,32 @@ export const EditorHeader = styled.header`
   padding: 0 15px;
 `
 
-export const EditorTable = styled.table`
+export const EditorTableWrapper = styled.div`
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
-
   width: 95%;
+  height: 65%;
+  max-height: 80%;
   border: ${theme('ui-10')} 2px solid;
+`
+export const EditorTable = styled.table`
+  width: 100%;
   padding: 10px 15px;
+
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 3px;
+}
+        
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px ${theme('flow-20')};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${theme('ui-20')};
+    border-radius: 10px;
+  }
 
   column-count: 3;
   column-gap: 20px;
@@ -57,5 +75,41 @@ export const EditorTable = styled.table`
       justify-content: center;
       padding-top: 5px;
     }
+  }
+`
+
+export const EditorAddFlagContainer = styled.div`
+  width: 95%;
+  height: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  border: ${theme('ui-15')} 2px solid;
+  border-top: 0px;
+  padding: 12px 15px;
+  
+  input {
+    border: ${theme('ui-10')} 2px solid;
+  }
+
+  input:focus {
+    background-color: ${theme('ui-15')};
+  }
+
+  button {
+    height: 36px;
+  }
+`
+
+export const EditorCalculateContainer = styled.div`
+  width: 95%;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  border: ${theme('ui-15')} 2px solid;
+  border-top: 0;
+  padding: 0 15px;
+  align-content: center;
+  button {
+    display: flex;
   }
 `

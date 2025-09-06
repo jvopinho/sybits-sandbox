@@ -1,22 +1,22 @@
 import type React from 'react';
-import { EditorAddFlagContainer, EditorCalculateContainer, EditorContainer, EditorHeader, EditorTable, EditorTableWrapper } from './Editor.styles';
-import { Button, Checkbox, Form, Input, Space } from 'antd';
-import { useTheme } from 'styled-components';
-import { DeleteFilled } from '@ant-design/icons';
+import { EditorAddFlagContainer, EditorCalculateContainer, EditorContainer, EditorHeader, EditorTableWrapper } from './Editor.styles';
+import { Button, Form, Input, Switch } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { useFlags } from '../hooks/useFlags';
+import { DeleteFilled, PlusOutlined } from '@ant-design/icons';
 
-const ColumnSpace = () => <td style={{width: '2%'}} />
-const RowSpace = () => <div style={{height: '2px'}} />
+type Props = {
+  handleOpenCalculator: () => void
+}
 
-export const EditorSection: React.FC = () => {
-  const {flags, addFlag} = useFlags()
+export const EditorSection: React.FC<Props> = ({ handleOpenCalculator }: Props) => {
+  // const {flags, addFlag} = useFlags()
 
-  const theme = useTheme()
-  const [form] = useForm()
+  // const theme = useTheme()
+  const [form] = useForm();
+  const flags = Form.useWatch("flags", form) ?? [];
 
-  const onFinish = (data: { flag_name: string }) => {
-    addFlag(data.flag_name, false)
+  const onFinish = (values: any) => {
+    console.log(values)
   }
 
   return (
@@ -26,79 +26,47 @@ export const EditorSection: React.FC = () => {
       </EditorHeader>
 
       <EditorTableWrapper>
-        <EditorTable>
-          <thead>
-            <tr style={{borderBottom: `${theme['ui-15']} 2px solid;`}}>
-              <td style={{width: '1%'}}><strong>Delete</strong></td>
-              <ColumnSpace />
-              <td style={{width: '50%', textAlign: 'left'}}><strong>Flag</strong></td>
-              <td style={{width: '10%'}}><strong>Value</strong></td>
-              <ColumnSpace />
-              <td style={{width: '11%'}}><strong>Is Default</strong></td>
-            </tr>
-          </thead>
+        <Form form={form} onFinish={onFinish}>
+          <Form.List name={"flags"}>
+            {(fields, { add, remove }) => (<>
+              {fields.map(({ key, name }) => (<>
+                <EditorAddFlagContainer key={key}>
+                  <Form.Item name={[name, "key"]}>
+                    <Input placeholder="Digite aqui sua key" />
+                  </Form.Item>
+                  <Form.Item hidden name={[name, "value"]} initialValue={name} />
+                  <span>
+                    {"1n << "}
+                    {!!flags[name]
+                      ? flags[name].value
+                      : 0
+                    }{"n"}
+                  </span>
+                  <div className="end">
+                    <Form.Item name={[name, "isDefault"]}>
+                      <Switch />
+                    </Form.Item>
+                    <Button block onClick={() => remove(name)}>
+                      <DeleteFilled />
+                    </Button>
+                  </div>
+                </EditorAddFlagContainer>
+              </>))}
 
-          <RowSpace />
-          <RowSpace />
-
-          <tbody>
-            {flags.map((flag, i) => (
-              <>
-                <tr>
-                  <td><DeleteFilled /></td>
-                  <ColumnSpace />
-                  <td className={'flag-name'}>
-                    <Input 
-                      defaultValue={flag.name}
-                      variant='borderless'
-                      style={{
-                        padding: '0',
-                        color: theme['text-80'],
-                        fontFamily: 'Arial',
-                      }} 
-                    />
-                  </td>
-                  <td className={'flag-value'} title={`${flag.bitValue}`}>{`1n << ${flag.value}`}</td>
-                  <ColumnSpace />
-                  <td className={'flag-is-default'}>
-                    <Checkbox style={{height: '15px'}} checked={flag.isDefault} />
-                  </td>
-                </tr>
-
-                {flags[i + 1] && <RowSpace />}
-              </>
-            ))}
-          </tbody>
-        </EditorTable>
-      </EditorTableWrapper>
-      <EditorAddFlagContainer>
-        <Form
-          form={form}
-          onFinish={onFinish}
-        >
-          <Space.Compact style={{ width: '100%' }}>
-            <Form.Item style={{ width: '100%' }} name="flag_name" rules={[{ required: true }]}>
-              <Input
-                defaultValue={'Teste 2'}
-                variant='filled'
-                style={{
-                  padding: '5px',
-                  color: theme['text-80'],
-                  fontFamily: 'Arial',
-                }}
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button 
-                type="primary"
-                htmlType='submit'
-              >
-                Add
-              </Button>
-            </Form.Item>
-          </Space.Compact>
+              <Form.Item>
+                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                  Adicionar flag
+                </Button>
+              </Form.Item>
+            </>)}
+          </Form.List>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
         </Form>
-      </EditorAddFlagContainer>
+      </EditorTableWrapper>
 
       <EditorCalculateContainer>
         <Button
@@ -106,6 +74,7 @@ export const EditorSection: React.FC = () => {
           style={{
             justifyContent: 'center'
           }}
+          onClick={() => handleOpenCalculator()}
         >
           Calculator
         </Button>
